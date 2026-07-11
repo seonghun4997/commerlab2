@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>커머랩 — 이커머스 실전 지식 플랫폼</title>
+<meta name="description" content="이커머스 셀러를 위한 실전 전자책. 광고·마케팅, 상세페이지, CRM, 소싱까지 — 현장의 판단 기준을 담았습니다.">
+<meta property="og:title" content="커머랩 — 이커머스 실전 지식 플랫폼">
+<meta property="og:description" content="셀러를 위한 실전 전자책. 광고·상세페이지·CRM·소싱의 현장 판단 기준.">
+<meta property="og:type" content="website">
+<!-- ▼ 배포 후 실제 주소/이미지로 교체: <meta property="og:url" content="https://내주소.vercel.app"> <meta property="og:image" content="https://내주소.vercel.app/og.png"> -->
+<!-- ▼ 배포 후 여기에 GA4/메타픽셀 코드 붙여넣기
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+Meta Pixel: fbq('init','PIXEL_ID')  -->
+<script>window.dataLayer=window.dataLayer||[];function evt(n,d){dataLayer.push({event:n,...d});if(window.fbq)fbq('trackCustom',n,d);}</script>
+<style>
+:root{color-scheme:light only;
+  --ink:#111318; --navy:#25315C; --body:#454C58; --gray:#8B95A1;
+  --tile:#F4F5F7; --line:#EEF0F3; --red:#E5352B; --blue:#2D62D9;
+  --font:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard','Malgun Gothic',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:#fff}
+section,.dots,.banners,.author,footer{background:#fff}
+body{font-family:var(--font);background:#fff;color:var(--ink);
+  font-size:15px;line-height:1.55;letter-spacing:-.02em;
+  max-width:560px;margin:0 auto;
+  padding-bottom:calc(58px + env(safe-area-inset-bottom))}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.px{padding-left:20px;padding-right:20px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ── 헤더 ── */
+header{background:#fff;position:sticky;top:0;z-index:50}
+.hd{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:7px}
+.logo .mk{width:27px;height:27px;background:#fff;border:2.5px solid var(--ink);color:var(--ink);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.logo b{font-size:21px;font-weight:800;letter-spacing:-.045em}
+.hd-r{display:flex;align-items:center;gap:10px}
+.icon-btn svg{width:23px;height:23px;stroke:var(--ink)}
+.btn-login{border:1.5px solid #D7DCE3;border-radius:99px;padding:8px 17px;
+  font-size:13.5px;font-weight:600;color:var(--body)}
+nav.tabs{display:flex;align-items:center;padding-bottom:5px}
+nav.tabs a{padding:8px 11px;font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.035em}
+nav.tabs a.dim{color:#A6AFBC;font-weight:700}
+.tdiv{width:1px;height:14px;background:#E2E6EC;margin:0 7px}
+
+/* ── 메인 배너 슬라이더 ── */
+.banners{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.banners::-webkit-scrollbar{display:none}
+.bn{flex:none;width:100%;scroll-snap-align:center;background:#F1F2F4;
+  position:relative;overflow:hidden}
+.bn-in{padding:38px 20px 44px;position:relative;z-index:1}
+.bn-txt{padding-right:118px}
+.bn h1{font-size:22.5px;font-weight:800;letter-spacing:-.04em;line-height:1.36;color:var(--ink)}
+.bn p{margin-top:9px;font-size:13.5px;color:#5B6472}
+/* 배너1: 신간 책 */
+.bn-book{position:absolute;right:18px;top:50%;transform:translateY(-50%) rotate(3deg);
+  width:102px;aspect-ratio:3/4.15;background:#fff;border:1px solid #E4E7EC;border-radius:4px 9px 9px 4px;
+  box-shadow:-8px 14px 24px rgba(17,19,24,.12), inset 5px 0 0 #EFF1F4;
+  padding:13px 11px;color:var(--navy);display:flex;flex-direction:column}
+.bn-book .be{font-size:6.5px;letter-spacing:.18em;color:#9AA3B2;font-weight:700}
+.bn-book h4{font-size:12.5px;font-weight:800;line-height:1.35;margin-top:6px;letter-spacing:-.02em;color:var(--navy)}
+.bn-book .bs{font-size:7.5px;color:var(--gray);margin-top:5px;line-height:1.5}
+.bn-book .au{margin-top:auto;font-size:7px;color:#B0B8C1;letter-spacing:.1em}
+/* 배너2·3 심플 오브젝트 */
+.bn-obj{position:absolute;right:24px;top:50%;transform:translateY(-50%);
+  width:92px;height:92px;border-radius:26px;background:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:42px;
+  box-shadow:0 10px 22px rgba(17,19,24,.08)}
+@media(max-width:400px){.bn-book{width:92px;right:14px}.bn-txt{padding-right:104px}}
+.bn-cta{display:inline-flex;align-items:center;gap:5px;margin-top:14px;
+  background:var(--ink);color:#fff;border-radius:10px;padding:11px 16px;
+  font-size:13.5px;font-weight:800}
+.bn-cta.line{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+.dots{display:flex;gap:6px;justify-content:center;padding:12px 0 2px}
+.dots i{width:6px;height:6px;border-radius:99px;background:#DDE2E8;transition:.25s}
+.dots i.on{width:16px;background:var(--ink)}
+
+/* ── 섹션 공통 ── */
+section{padding:34px 0 4px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sec-head h2{font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-.045em}
+.sec-head .more{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:700;color:var(--navy)}
+.sec-head .more svg{width:14px;height:14px;stroke:var(--navy);stroke-width:2.6}
+
+/* ── 실시간 베스트 (2열) ── */
+.pgrid a{transition:transform .12s}
+.pgrid a:active{transform:scale(.98)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px 14px}
+.thumb{aspect-ratio:16/11;border-radius:12px;position:relative;overflow:hidden;
+  padding:14px;display:flex;flex-direction:column}
+.thumb .cap{font-size:11px;font-weight:700;opacity:.82}
+.thumb h3{font-size:16px;font-weight:800;line-height:1.32;letter-spacing:-.03em;margin-top:4px}
+.thumb h3 em{font-style:normal}
+.heart{position:absolute;top:10px;right:10px}
+.heart svg{width:22px;height:22px;fill:none;stroke:#B9C4D4;stroke-width:2}
+.th-1{background:#E3F5EC;color:#0E5C48}.th-1 em{color:#00A76F}
+.th-2{background:#E8F0FF;color:#23407E}.th-2 em{color:#3D7BF7}
+.th-3{background:#F0EDFF;color:#40388A}.th-3 em{color:#7C6AF2}
+.th-4{background:#FFF0E2;color:#7A4413}.th-4 em{color:#E8822A}
+.pinfo{padding:11px 2px 0}
+.pinfo .cat{font-size:11.5px;font-weight:700;color:var(--gray)}
+.pinfo h4{font-size:14.5px;font-weight:700;letter-spacing:-.03em;line-height:1.42;margin-top:2px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pinfo .verify{margin-top:5px;font-size:11px;color:var(--gray)}
+.pinfo .verify b{color:var(--navy);font-weight:700}
+.pinfo .row{margin-top:5px;display:flex;align-items:baseline;justify-content:space-between}
+.pinfo .price{font-size:15.5px;font-weight:800}
+.pinfo .rate{font-size:12px;color:var(--gray)}
+
+/* ── 신규 오픈 (가로 스크롤) ── */
+.hscroll{display:flex;gap:13px;overflow-x:auto;scrollbar-width:none;
+  padding:2px 20px 12px;scroll-snap-type:x mandatory}
+.hscroll::-webkit-scrollbar{display:none}
+.nc{flex:none;width:196px;scroll-snap-align:start}
+.nc .thumb{aspect-ratio:16/10;border-radius:12px}
+.nc .thumb h3{font-size:14.5px}
+.nc .badge-new{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;
+  font-size:9.5px;font-weight:900;border-radius:5px;padding:3px 6px}
+.th-5{background:#E4F5FB;color:#16576F}.th-5 em{color:#1D9CC9}
+.th-6{background:#FCEAF1;color:#8A2E52}.th-6 em{color:#D95687}
+
+/* ── 후기 ── */
+.rv{flex:none;width:76vw;max-width:312px;scroll-snap-align:start;
+  background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px}
+.rv .stars{color:#F5A524;font-size:13px;letter-spacing:1px}
+.rv p{font-size:13.5px;color:var(--body);line-height:1.62;margin:9px 0 11px}
+.rv .who{display:flex;justify-content:space-between;font-size:11.5px;color:var(--gray)}
+.rv .who i{font-style:normal;color:var(--blue);font-weight:700}
+
+/* ── 저자 모집 ── */
+.author{margin:30px 20px 0;border:1px solid var(--line);border-radius:14px;padding:18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.author h3{font-size:14.5px;font-weight:800;letter-spacing:-.03em;line-height:1.4}
+.author p{font-size:11.5px;color:var(--gray);margin-top:3px}
+.author .go{flex:none;border:1.5px solid var(--ink);border-radius:10px;
+  padding:10px 14px;font-size:13px;font-weight:800}
+
+/* ── 푸터/하단내비 ── */
+footer{padding:36px 20px 22px;color:#B0B8C1;font-size:11.5px}
+footer .links{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:13px;
+  font-size:12.5px;font-weight:600;color:#6B7684}
+footer .legal{line-height:1.8;border-top:1px solid var(--line);padding-top:13px}
+.tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:60;
+  width:100%;max-width:560px;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;height:54px;
+  padding-bottom:env(safe-area-inset-bottom)}
+.tabbar a{flex:1;display:flex;align-items:center;justify-content:center;
+  font-size:14.5px;font-weight:700;color:#B4BCC8;letter-spacing:-.02em}
+.tabbar a.on{color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(8px);background:rgba(17,19,24,.92);color:#fff;
+  font-size:13px;font-weight:600;padding:11px 18px;border-radius:99px;opacity:0;
+  pointer-events:none;transition:.25s;z-index:99;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header>
+  <div class="hd px">
+    <a class="logo" href="#"><span class="mk">C</span><b>커머랩</b></a>
+    <div class="hd-r">
+      <button class="icon-btn" aria-label="검색">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button class="btn-login">로그인</button>
+    </div>
+  </div>
+  <nav class="tabs px" aria-label="주요 메뉴">
+    <a href="#best">전자책</a>
+    <span class="tdiv"></span>
+    <a href="#" class="dim">셀러 무료자료</a>
+  </nav>
+</header>
+
+<!-- 메인 배너 슬라이더 -->
+<div class="banners" id="banners">
+  <!-- 1. 신간 전자책 하이라이트 -->
+  <div class="bn">
+    <div class="bn-in">
+      <div class="bn-txt">
+        <h1>신간 전자책<br>오픈되었습니다</h1>
+        <p>일예산 300만원 이상,<br>고예산 운영의 판단 기준을 담았습니다</p>
+        <a class="bn-cta" href="scaleup.html" data-evt="banner_new_cta">자세히 보기 →</a>
+      </div>
+    </div>
+    <div class="bn-book" aria-hidden="true">
+      <span class="be">COMMERLAB</span>
+      <h4>메타광고<br>스케일업 실전</h4>
+      <p class="bs">일예산 300만원 이상<br>현장의 판단 기준</p>
+      <span class="au">WOONOE · 2026</span>
+    </div>
+  </div>
+  <!-- 2. 셀러 무료자료 -->
+  <div class="bn">
+    <div class="bn-in">
+      <div class="bn-txt">
+        <h1>셀러 무료자료<br>받아가세요</h1>
+        <p>광고 세팅 체크리스트부터<br>마진 계산 템플릿까지</p>
+        <!-- ▼ 구글폼/스티비 링크로 교체 권장 -->
+        <a class="bn-cta line" href="mailto:help@commerlab.kr?subject=셀러 무료자료 신청" data-evt="lead_freekit">이메일로 받기 →</a>
+      </div>
+    </div>
+    <div class="bn-obj" aria-hidden="true">🎁</div>
+  </div>
+  <!-- 3. 저자 모집 -->
+  <div class="bn">
+    <div class="bn-in">
+      <div class="bn-txt">
+        <h1>커머랩 저자를<br>모집합니다</h1>
+        <p>실전 경험을 책으로 —<br>심사 무료, 정산 투명</p>
+        <a class="bn-cta" href="mailto:help@commerlab.kr?subject=저자 심사 신청" data-evt="author_banner_cta">심사 신청 →</a>
+      </div>
+    </div>
+    <div class="bn-obj" aria-hidden="true">✍️</div>
+  </div>
+</div>
+<div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
+
+<!-- 실시간 베스트 -->
+<section id="best" class="px">
+  <div class="sec-head">
+    <h2>실시간 베스트</h2>
+    <a class="more" href="#">모두보기
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+  </div>
+  <div class="pgrid">
+
+    <a href="scaleup.html" data-evt="card_scaleup">
+      <div class="thumb th-1">
+        <span class="cap">2026 · 중급 이상</span>
+        <h3>일예산 <em>300만원+</em><br>스케일업 실전</h3>
+        <button class="heart" aria-label="찜하기" type="button"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-9.3-8.5C1 8.4 3 5 6.4 5c2 0 3.6 1.2 4.3 2.6h2.6C14 6.2 15.6 5 17.6 5 21 5 23 8.4 21.3 11.5 19 15.7 12 20 12 20z"/></svg></button>
+      </div>
+      <div class="pinfo">
+        <span class="cat">광고·마케팅</span>
+        <h4>메타광고 스케일업 실전 — 현장의 판단 기준</h4>
+        
+        <div class="row"><span class="price">289,000원</span></div>
+      </div>
+    </a>
+
+    <a href="#">
+      <div class="thumb th-2">
+        <span class="cap">중급</span>
+        <h3>재구매가 만드는<br><em>이익 구조</em></h3>
+        <button class="heart" aria-label="찜하기" type="button"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-9.3-8.5C1 8.4 3 5 6.4 5c2 0 3.6 1.2 4.3 2.6h2.6C14 6.2 15.6 5 17.6 5 21 5 23 8.4 21.3 11.5 19 15.7 12 20 12 20z"/></svg></button>
+      </div>
+      <div class="pinfo">
+        <span class="cat">CRM·리텐션</span>
+        <h4>커머스 CRM 세그먼트 설계</h4>
+        
+        <div class="row"><span class="price">189,000원</span></div>
+      </div>
+    </a>
+
+    <a href="#">
+      <div class="thumb th-3">
+        <span class="cap">초·중급</span>
+        <h3>전환율은<br><em>설계</em>다</h3>
+        <button class="heart" aria-label="찜하기" type="button"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-9.3-8.5C1 8.4 3 5 6.4 5c2 0 3.6 1.2 4.3 2.6h2.6C14 6.2 15.6 5 17.6 5 21 5 23 8.4 21.3 11.5 19 15.7 12 20 12 20z"/></svg></button>
+      </div>
+      <div class="pinfo">
+        <span class="cat">상세페이지</span>
+        <h4>상세페이지 A/B 47회의 기록</h4>
+        
+        <div class="row"><span class="price">149,000원</span></div>
+      </div>
+    </a>
+
+    <a href="#">
+      <div class="thumb th-4">
+        <span class="cap">초·중급</span>
+        <h3>남는 장사의<br><em>원가표</em></h3>
+        <button class="heart" aria-label="찜하기" type="button"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.3-9.3-8.5C1 8.4 3 5 6.4 5c2 0 3.6 1.2 4.3 2.6h2.6C14 6.2 15.6 5 17.6 5 21 5 23 8.4 21.3 11.5 19 15.7 12 20 12 20z"/></svg></button>
+      </div>
+      <div class="pinfo">
+        <span class="cat">소싱·물류</span>
+        <h4>소싱·마진 설계 실무</h4>
+        
+        <div class="row"><span class="price">169,000원</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- 신규 오픈 -->
+<section>
+  <div class="sec-head px">
+    <h2>신규 오픈</h2>
+    <a class="more" href="#">모두보기
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+  </div>
+  <div class="hscroll">
+    <a class="nc" href="#">
+      <div class="thumb th-5">
+        <span class="badge-new">NEW</span>
+        <span class="cap">왕초보도</span>
+        <h3>스마트스토어<br><em>첫 판매</em> 만들기</h3>
+      </div>
+      <div class="pinfo">
+        <h4>스마트스토어 첫 판매 만들기</h4>
+        <div class="row"><span class="price">99,000원</span></div>
+      </div>
+    </a>
+    <a class="nc" href="#">
+      <div class="thumb th-6">
+        <span class="badge-new">NEW</span>
+        <span class="cap">실무 템플릿 포함</span>
+        <h3>셀러를 위한<br><em>GFA</em> 운영</h3>
+      </div>
+      <div class="pinfo">
+        <h4>셀러를 위한 GFA 운영 실무</h4>
+        <div class="row"><span class="price">129,000원</span></div>
+      </div>
+    </a>
+    <a class="nc" href="#">
+      <div class="thumb th-2">
+        <span class="badge-new">NEW</span>
+        <span class="cap">중급</span>
+        <h3>커머스<br><em>데이터 분석</em> 입문</h3>
+      </div>
+      <div class="pinfo">
+        <h4>커머스 데이터 분석 입문</h4>
+        <div class="row"><span class="price">139,000원</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+<!-- 저자 모집 -->
+<div class="author">
+  <div>
+    <h3>커머랩 저자를 모집합니다</h3>
+    <p>실전 경험을 책으로 · 심사 무료 · <a href="#" style="text-decoration:underline">수수료·정산 안내</a></p>
+  </div>
+  <a class="go" href="mailto:help@commerlab.kr?subject=저자 심사 신청" data-evt="author_apply">신청하기</a>
+</div>
+
+<!-- 푸터 -->
+<footer>
+  <div class="links">
+    <a href="policy.html#terms">이용약관</a><a href="policy.html#privacy">개인정보처리방침</a><a href="policy.html#refund">환불 정책</a><a href="mailto:help@commerlab.kr?subject=저자 심사 신청">저자 신청</a><a href="mailto:help@commerlab.kr">고객센터</a>
+  </div>
+  <div class="legal">
+    (주)커머랩 · 대표 ○○○ · 사업자등록번호 000-00-00000 · 통신판매업신고 제0000-서울○○-0000호<br>
+    주소 서울특별시 ○○구 ○○로 00 · 이메일 help@commerlab.kr · 개인정보보호책임자 ○○○<br><br>
+    커머랩은 통신판매중개자로서 저자와 구매자 간 거래를 중개하며, 저자가 등록한 콘텐츠 정보 및 거래에 대한 책임은 각 저자에게 있습니다. 단, 커머랩이 직접 판매하는 콘텐츠는 커머랩이 책임집니다.<br>
+    디지털 콘텐츠 특성상 열람 개시 후에는 청약철회가 제한될 수 있으며, 자세한 내용은 환불 정책을 확인해 주세요.<br><br>
+    © 2026 COMMERLAB. All rights reserved.
+  </div>
+</footer>
+
+<!-- 하단 내비 -->
+<nav class="tabbar" aria-label="하단 메뉴">
+  <a href="#" class="on">홈</a>
+  <a href="#best">검색</a>
+  <a href="#">콘텐츠</a>
+  <a href="#">내서재</a>
+</nav>
+
+<script>
+const bn=document.getElementById('banners');
+const dots=[...document.querySelectorAll('#dots i')];
+bn.addEventListener('scroll',()=>{
+  const i=Math.round(bn.scrollLeft/bn.clientWidth);
+  dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+},{passive:true});
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  let idx=0,timer=setInterval(()=>{
+    idx=(idx+1)%3;
+    bn.scrollTo({left:idx*bn.clientWidth,behavior:'smooth'});
+  },4200);
+  bn.addEventListener('touchstart',()=>clearInterval(timer),{once:true,passive:true});
+}
+
+document.querySelectorAll('[data-evt]').forEach(el=>el.addEventListener('click',()=>evt(el.dataset.evt,{})));
+document.querySelectorAll('.heart').forEach(h=>h.addEventListener('click',e=>{
+  e.preventDefault();e.stopPropagation();h.classList.toggle('on');
+  evt('wishlist_toggle',{on:h.classList.contains('on')});
+}));
+
+</script>
+<div class="toast" id="toast" role="status"></div>
+<script>
+let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;
+  t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),1800);}
+// 아직 없는 페이지는 정직하게 안내 (죽은 클릭 방지)
+document.querySelectorAll('a[href="#"]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();toast('페이지 준비 중입니다');}));
+document.querySelectorAll('.icon-btn,.btn-login').forEach(b=>b.addEventListener('click',()=>toast('준비 중입니다')));
+</script>
+</body>
+</html>
