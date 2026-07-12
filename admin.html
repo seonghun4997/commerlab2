@@ -25,6 +25,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
 .btn.gh{background:#111318;border-color:#111318;color:#fff}
 .hint{font-size:11.5px;color:#8B95A1;width:100%;padding-top:2px}
+.tabs{display:flex;gap:6px}
+.tabs .btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
 
 /* 본문: 미리보기 + 패널 */
 .main{flex:1;display:flex;min-height:0}
@@ -69,12 +71,18 @@ iframe{width:100%;max-width:560px;height:100%;min-height:600px;border:1px solid 
 
 <div class="bar">
   <span class="ttl">커머랩<i>.</i> 어드민</span>
+  <span class="tabs" id="tabs">
+    <button class="btn on" data-f="index.html">🏠 홈</button>
+    <button class="btn" data-f="scaleup.html">📖 상세페이지</button>
+    <button class="btn" data-f="policy.html">📄 약관</button>
+  </span>
+  <span style="width:1px;height:22px;background:#E2E6EC"></span>
   <button class="btn on" id="mText" onclick="setMode('text')">✏️ 텍스트 수정</button>
   <button class="btn" id="mImg" onclick="setMode('img')">🖼 이미지 교체</button>
   <button class="btn" id="mSec" onclick="togglePanel()">↕ 섹션 순서</button>
-  <button class="btn primary" onclick="download()">⬇ index.html 다운로드</button>
+  <button class="btn primary" id="dlBtn" onclick="download()">⬇ 이 페이지 다운로드</button>
   <a class="btn gh" href="https://github.com/seonghun4997/commerlab2/upload/main" target="_blank">📤 GitHub 업로드</a>
-  <span class="hint" id="hint">화면 속 글자를 클릭하면 바로 수정됩니다. 수정 후 [다운로드] → [GitHub 업로드]에 드래그하면 실사이트에 반영돼요.</span>
+  <span class="hint" id="hint">상단 탭에서 페이지(홈/상세/정책)를 고르고, 글자를 클릭해 수정하세요. 수정 후 [다운로드] → [GitHub 업로드]에 드래그하면 반영돼요.</span>
 </div>
 
 <div class="main">
@@ -90,7 +98,16 @@ iframe{width:100%;max-width:560px;height:100%;min-height:600px;border:1px solid 
 
 <script>
 const PASS='2026'; // ← 비밀번호 여기서 변경
-let mode='text', doc=null;
+let mode='text', doc=null, curFile='index.html', dirty=false;
+
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b||b.dataset.f===curFile) return;
+  if(dirty && !confirm('수정한 내용이 아직 다운로드 안 됐어요.\n다운로드 없이 다른 페이지로 넘어갈까요?')) return;
+  curFile=b.dataset.f; dirty=false;
+  [...document.getElementById('tabs').children].forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('dlBtn').textContent='⬇ '+curFile+' 다운로드';
+  init();
+});
 
 function unlock(){
   if(document.getElementById('pw').value===PASS){
@@ -104,8 +121,8 @@ let tT;function toast(m){const t=document.getElementById('toast');t.textContent=
 
 async function init(){
   let html;
-  try{ html=await (await fetch('index.html',{cache:'no-store'})).text(); }
-  catch(e){ toast('index.html을 못 불러왔어요 — 배포된 주소(…/admin.html)에서 열어주세요'); return; }
+  try{ html=await (await fetch(curFile,{cache:'no-store'})).text(); }
+  catch(e){ toast(curFile+'을 못 불러왔어요 — 배포된 주소(…/admin.html)에서 열어주세요'); return; }
   const f=document.getElementById('frame');
   f.srcdoc=html;
   f.onload=()=>{
@@ -119,8 +136,9 @@ async function init(){
     },true);
     // 배너 자동 슬라이드 정지(편집 방해 방지)
     try{ for(let i=1;i<9999;i++) f.contentWindow.clearInterval(i);}catch(_){}
+    doc.addEventListener('input',()=>{dirty=true;});
     buildSecList();
-    toast('불러오기 완료 — 글자를 클릭해 수정해보세요');
+    toast(curFile+' 불러오기 완료 — 글자를 클릭해 수정해보세요');
   };
 }
 
@@ -146,7 +164,7 @@ function pickImage(e){
   if(!pendingImg){ document.getElementById('file').click(); return; }
   e.preventDefault(); e.stopPropagation();
   const t=e.target;
-  const book=t.closest && (t.closest('.fb-book')||t.closest('.bn-book'));
+  const book=t.closest && (t.closest('.fb-book')||t.closest('.bn-book')||t.closest('.cover'));
   if(book){ // 책 표지 통째 교체
     book.style.padding='0'; book.style.border='none';
     book.innerHTML='<img src="'+pendingImg+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block">';
@@ -155,7 +173,7 @@ function pickImage(e){
     box.style.backgroundImage='url('+pendingImg+')';
     box.style.backgroundSize='cover'; box.style.backgroundPosition='center';
   }
-  toast('이미지 적용됨'); pendingImg=null; setMode('text');
+  toast('이미지 적용됨'); pendingImg=null; dirty=true; setMode('text');
 }
 
 function togglePanel(){
@@ -166,6 +184,13 @@ function togglePanel(){
 }
 function secLabel(el){
   const h=el.querySelector && el.querySelector('h1,h2,h3');
+  const c=el.classList;
+  if(c.contains('topbar'))return '상단 바';
+  if(c.contains('cover-stage'))return '책 표지 영역';
+  if(c.contains('tblock'))return '제목·가격';
+  if(c.contains('tags'))return '태그 줄';
+  if(c.contains('gets'))return '구매 시 받는 것';
+  if(c.contains('buybar'))return '하단 구매 바';
   if(el.tagName==='HEADER')return '상단 헤더';
   if(el.classList.contains('banners'))return '배너 슬라이드';
   if(el.classList.contains('dots'))return '배너 도트';
@@ -175,7 +200,8 @@ function secLabel(el){
 }
 function movable(){
   return [...doc.body.children].filter(el=>
-    !['SCRIPT','STYLE'].includes(el.tagName) && !el.classList.contains('toast'));
+    !['SCRIPT','STYLE'].includes(el.tagName) && !el.classList.contains('toast')
+    && !el.classList.contains('modal') && !el.classList.contains('modal-bg'));
 }
 function buildSecList(){
   if(!doc) return;
@@ -185,13 +211,13 @@ function buildSecList(){
     row.innerHTML='<span class="nm">'+secLabel(el)+'</span>';
     const up=document.createElement('button'); up.textContent='↑';
     up.onclick=()=>{const p=el.previousElementSibling;
-      if(p&&!['SCRIPT','STYLE'].includes(p.tagName)){el.parentNode.insertBefore(el,p);buildSecList();}};
+      if(p&&!['SCRIPT','STYLE'].includes(p.tagName)){el.parentNode.insertBefore(el,p);dirty=true;buildSecList();}};
     const dn=document.createElement('button'); dn.textContent='↓';
     dn.onclick=()=>{const n=el.nextElementSibling;
-      if(n&&!['SCRIPT','STYLE'].includes(n.tagName)){el.parentNode.insertBefore(n,el);buildSecList();}};
+      if(n&&!['SCRIPT','STYLE'].includes(n.tagName)){el.parentNode.insertBefore(n,el);dirty=true;buildSecList();}};
     const hd=document.createElement('button'); hd.textContent=el.style.display==='none'?'👁':'－';
     hd.title='숨김/표시';
-    hd.onclick=()=>{el.style.display = el.style.display==='none' ? '' : 'none'; buildSecList();};
+    hd.onclick=()=>{el.style.display = el.style.display==='none' ? '' : 'none'; dirty=true; buildSecList();};
     row.append(up,dn,hd); list.append(row);
   });
 }
@@ -203,9 +229,9 @@ function download(){
   doc.designMode = mode==='text' ? 'on' : 'off';
   const b=new Blob([html],{type:'text/html'});
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(b); a.download='index.html'; a.click();
+  a.href=URL.createObjectURL(b); a.download=curFile; a.click();
   URL.revokeObjectURL(a.href);
-  toast('index.html 저장됨 — GitHub 업로드 버튼으로 올리면 반영!');
+  dirty=false; toast(curFile+' 저장됨 — GitHub 업로드 버튼으로 올리면 반영!');
 }
 </script>
 </body>
