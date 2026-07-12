@@ -124,6 +124,28 @@ section{padding:34px 0 0}
 .btn-buy{flex:1;background:var(--navy);color:#fff;border-radius:13px;padding:15px;
   font-size:15.5px;font-weight:800;text-align:center;letter-spacing:-.02em;transition:transform .12s}
 .btn-buy:active{transform:scale(.98)}
+/* 구매 모달 */
+.modal-bg{position:fixed;inset:0;background:rgba(17,19,24,.5);z-index:80;display:none;
+  align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{width:100%;max-width:560px;background:#fff;border-radius:22px 22px 0 0;
+  padding:22px 20px calc(20px + env(safe-area-inset-bottom));animation:up .25s ease}
+@keyframes up{from{transform:translateY(30px);opacity:.6}to{transform:none;opacity:1}}
+.modal h3{font-size:18px;font-weight:800;letter-spacing:-.03em}
+.modal .step{display:flex;gap:10px;padding:8px 0;font-size:13.5px;color:var(--body)}
+.modal .step b{color:var(--ink)}
+.modal .step .n{flex:none;width:20px;height:20px;border-radius:50%;background:var(--tile);
+  font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.acct{margin:12px 0;background:var(--tile);border-radius:14px;padding:15px 16px}
+.acct .bk{font-size:12px;color:var(--gray)}
+.acct .no{font-size:18px;font-weight:800;letter-spacing:.01em;margin:2px 0}
+.acct .nm{font-size:12.5px;color:var(--body)}
+.acct .copy{float:right;margin-top:-40px;border:1.5px solid #D7DCE3;border-radius:9px;
+  padding:8px 12px;font-size:12px;font-weight:700;background:#fff}
+.modal .btn-sms{display:block;width:100%;text-align:center;background:var(--navy);color:#fff;
+  border-radius:13px;padding:15px;font-size:15px;font-weight:800;margin-top:10px}
+.modal .close{display:block;width:100%;text-align:center;padding:13px;font-size:13.5px;
+  font-weight:700;color:var(--gray)}
 footer{padding:34px 20px 24px;font-size:11px;color:#B0B8C1;line-height:1.8}
 </style>
 </head>
@@ -158,8 +180,9 @@ footer{padding:34px 20px 24px;font-size:11px;color:#B0B8C1;line-height:1.8}
   <div class="tags">
     <span class="tag hl">중급 이상</span><span class="tag">전자책 · 178p</span><span class="tag">광고·마케팅</span>
   </div>
-  <h1>메타광고 스케일업 실전<br>— 일예산 300만원 이상의 판단 기준</h1>
-  <p class="sub">우뇌 지음 · 커머랩 오리지널</p>
+  <h1>효율은 지키고,<br>예산은 폭풍처럼 올린다</h1>
+  <p class="sub" style="margin-top:8px;font-size:14.5px;color:var(--body)">로아스 안 깨고 일예산 300 → 500 → 1000까지 태우는<br>고예산 운영의 규칙 — 『메타광고 스케일업 실전』</p>
+  <p class="sub">우뇌 지음 · 커머랩 오리지널 · 178p</p>
   <p class="price">289,000원</p>
 </div>
 
@@ -181,24 +204,24 @@ footer{padding:34px 20px 24px;font-size:11px;color:#B0B8C1;line-height:1.8}
 <!-- 얻는 것 -->
 <section>
   <div class="sh">
-    <h2>이 책에서 가져가는 것</h2>
-    <p>어디에도 정리된 적 없는, 현장의 규칙들</p>
+    <h2>이 책이 해결하는 문제</h2>
+    <p>증액을 막는 세 가지 문제, 규칙으로 풉니다</p>
   </div>
   <div class="gets">
     <div class="get">
-      <span class="no">01 — 증액을 감이 아니라 규칙으로</span>
-      <h3>4일 룰 증감액 엔진</h3>
-      <p>슈퍼 증액·점진 증액·슈퍼 감액·소재 추가·소재 OFF — 다섯 개의 판정 규칙으로 하루짜리 출렁임에 흔들리지 않는 운영 체계를 만듭니다.</p>
+      <span class="no">문제 01</span>
+      <h3>"올리면 깨질까 봐" 못 올린다</h3>
+      <p>→ <b>4일 룰</b>로 풉니다. 언제 올리고, 얼마나 올리고, 언제 멈출지를 다섯 개 규칙으로 정해두면 감으로 흔들릴 일이 없습니다.</p>
     </div>
     <div class="get">
-      <span class="no">02 — 지출이 안 붙을 때</span>
-      <h3>TCPA의 두 얼굴 — 조이는 도구가 아니라 여는 도구</h3>
-      <p>결과당 비용 목표를 방어용 1.5배로만 쓰면 절반만 쓰는 겁니다. 지출이 멈춘 세트를 5~10배로 열어 볼륨을 터뜨리는 확장 모드를 다룹니다.</p>
+      <span class="no">문제 02</span>
+      <h3>예산은 잡았는데 돈이 안 태워진다</h3>
+      <p>→ <b>TCPA 확장 모드</b>로 풉니다. 일 1000을 잡아도 400에서 멈추는 계정, 지출을 여는 세팅으로 볼륨을 터뜨립니다.</p>
     </div>
     <div class="get">
-      <span class="no">03 — 소재를 끄기 전에</span>
-      <h3>결제시작당 비용(IC) 보정값</h3>
-      <p>구매당 비용만 보면 끄기 아까운 소재를 잘못 끕니다. 구매 직전 타겟을 싸게 쌓는 소재를 가려내는 보정 기준을 제시합니다.</p>
+      <span class="no">문제 03</span>
+      <h3>아까운 소재를 잘못 끈다</h3>
+      <p>→ <b>IC 보정값</b>으로 풉니다. 지금은 적자처럼 보여도 "구매 직전 손님"을 쌓고 있는 소재, 끄기 전에 가려냅니다.</p>
     </div>
   </div>
 </section>
@@ -218,19 +241,23 @@ footer{padding:34px 20px 24px;font-size:11px;color:#B0B8C1;line-height:1.8}
   </ul>
 </section>
 
-<!-- 미리보기 -->
+<!-- 핵심 공개 -->
 <section>
-  <div class="sh"><h2>본문 미리보기</h2></div>
-  <div class="preview">
-    <span class="lb">6장 — 증액 룰 엔진 중에서</span>
-    <p>복제 세트가 1~2일 버텼다고 바로 다음 세트를 또 키우는 게 가장 흔한 실수입니다. 새 증액은 멈추고, 버틴 그 세트만 15%씩 시간차 증액하며 확인하세요. <b>복사증액은 "연속으로 치는 기술"이 아니라 "버티는 걸 확인한 뒤 크게 치는 기술"입니다.</b></p>
-    <p class="src">— 무료 샘플에서 1장 전체를 읽어볼 수 있습니다</p>
+  <div class="sh">
+    <h2>책 속 규칙, 세 개만 먼저 공개합니다</h2>
+    <p>이 정도 밀도로 178페이지가 이어집니다</p>
   </div>
-  <div style="padding:12px 20px 0">
-    <!-- ▼ 샘플 PDF 링크 또는 구글폼으로 교체 권장 -->
-    <a href="mailto:help@commerlab.kr?subject=무료 샘플 신청 (스케일업 실전)" data-evt="sample_request"
-       style="display:block;text-align:center;border:1.5px solid var(--navy);color:var(--navy);
-       border-radius:13px;padding:14px;font-size:14.5px;font-weight:800">무료 샘플 1장 받기</a>
+  <div class="preview">
+    <span class="lb">규칙 ① — 짤증(점진 증액)</span>
+    <p><b>로아스 250% 이상이 4일 버티면, 딱 15~20%만 올립니다.</b> 하루 잘 나왔다고 올리는 게 아니라, 4일을 기다렸다가 규칙대로만 움직입니다.</p>
+  </div>
+  <div class="preview" style="margin-top:10px">
+    <span class="lb">규칙 ② — TCPA 확장</span>
+    <p><b>지출이 안 붙으면 결과당 비용 목표를 목표가의 5~10배로 엽니다.</b> 터무니없어 보이지만 실제 CPA는 거기까지 가지 않습니다 — 지출과 구매가 같이 터집니다.</p>
+  </div>
+  <div class="preview" style="margin-top:10px">
+    <span class="lb">규칙 ③ — 복사증액</span>
+    <p><b>복사증액은 연속으로 치는 기술이 아니라, 버티는 걸 확인한 뒤 크게 치는 기술입니다.</b> 이 리듬으로 30만원 세트가 단일 세트 일 800~1000만원까지 갑니다.</p>
   </div>
 </section>
 
@@ -252,14 +279,14 @@ footer{padding:34px 20px 24px;font-size:11px;color:#B0B8C1;line-height:1.8}
   <div class="faq">
     <details>
       <summary>결제 후 어떻게 열람하나요?<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
-      <p class="a">결제 즉시 열람 링크가 이메일로 발송되며, 커머랩 내서재에서도 확인할 수 있습니다.</p>
+      <p class="a">계좌 입금 후 입금 확인 요청을 보내주시면, <b>영업일 2일 이내</b> 확인을 거쳐 <b>문자로 열람 링크</b>를 보내드립니다.</p>
     </details>
     <details>
       <summary>환불 규정이 어떻게 되나요?<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
       <p class="a">디지털 콘텐츠 특성상 열람을 시작하기 전에는 결제일로부터 7일 이내 청약철회(전액 환불)가 가능합니다. 열람 개시 후에는 환불이 제한될 수 있으며, 자세한 내용은 <a href="policy.html#refund" style="color:var(--blue);font-weight:700">환불 정책</a>을 확인해 주세요.</p>
     </details>
     <details>
-      <summary>초보자가 읽어도 되나요?<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <summary>기초부터 알려주나요?<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
       <p class="a">권장하지 않습니다. 이 책은 용어 설명이 없는 중급 이상 대상 도서입니다. 위 '이 책의 전제' 네 가지를 먼저 확인해 주세요.</p>
     </details>
     <details>
@@ -276,6 +303,26 @@ footer{padding:34px 20px 24px;font-size:11px;color:#B0B8C1;line-height:1.8}
   본 도서의 모든 수치와 전략은 저자의 운영 경험에 기반한 참고 기준이며, 광고 성과나 수익을 보장하지 않습니다. 계정·제품·시장 상황에 따라 결과는 달라질 수 있습니다.<br><br>
   판매자: (주)커머랩 · 사업자등록번호 000-00-00000 · 통신판매업신고 제0000-서울○○-0000호 · help@commerlab.kr
 </footer>
+
+<!-- 구매 모달 -->
+<div class="modal-bg" id="buyModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3>계좌이체로 구매하기</h3>
+    <div class="acct">
+      <!-- ▼ 실제 계좌 정보로 교체 -->
+      <div class="bk">○○은행</div>
+      <div class="no" id="acctNo">000-0000-0000-00</div>
+      <div class="nm">예금주 ○○○ · 289,000원</div>
+      <button class="copy" onclick="copyAcct()">복사</button>
+    </div>
+    <div class="step"><span class="n">1</span><span>위 계좌로 <b>289,000원</b>을 입금해 주세요</span></div>
+    <div class="step"><span class="n">2</span><span>아래 버튼으로 <b>입금자명과 연락처</b>를 보내주세요</span></div>
+    <div class="step"><span class="n">3</span><span><b>영업일 2일 이내</b> 확인 후, 문자로 열람 링크를 보내드립니다</span></div>
+    <!-- ▼ 010-0000-0000 을 실제 번호로 교체 (두 군데) -->
+    <a class="btn-sms" href="sms:010-0000-0000?body=커머랩 스케일업 실전 입금했습니다. 입금자명: / 연락처: " data-evt="deposit_request">문자로 입금 확인 요청하기</a>
+    <button class="close" onclick="document.getElementById('buyModal').classList.remove('open')">닫기</button>
+  </div>
+</div>
 
 <!-- 하단 고정 구매 CTA -->
 <div class="buybar">
@@ -296,9 +343,14 @@ document.querySelectorAll('[data-evt]').forEach(el=>el.addEventListener('click',
 let tT;function toast(m){const t=document.getElementById('toast');t.textContent=m;
   t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2000);}
 const buy=document.getElementById('buyBtn');
-buy.addEventListener('click',e=>{
-  if(buy.getAttribute('href')==='#'){e.preventDefault();
-    toast('결제 오픈 준비 중 — 무료 샘플을 먼저 받아보세요');}});
+const modal=document.getElementById('buyModal');
+buy.addEventListener('click',e=>{e.preventDefault();modal.classList.add('open');});
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
+function copyAcct(){
+  const t=document.getElementById('acctNo').textContent.trim();
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject())
+    .then(()=>toast('계좌번호 복사됨')).catch(()=>toast(t));
+}
 </script>
 </body>
 </html>
