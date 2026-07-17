@@ -489,7 +489,7 @@ function makeOrd(){
   }
   document.getElementById('ordNo').textContent=ordNo;
   const body='[주문번호 '+ordNo+'] 커머랩 스케일업 실전 입금했습니다. 입금자명: / 연락처: ';
-  document.getElementById('smsBtn').href='sms:010-3953-4997?body='+encodeURIComponent(body);
+  document.getElementById('smsBtn').href='sms:010-3953-4997;body='+encodeURIComponent(body);
 }
 function copyOrd(){
   (navigator.clipboard?navigator.clipboard.writeText(ordNo):Promise.reject())
