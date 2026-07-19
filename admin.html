@@ -23,6 +23,19 @@ a{text-decoration:none;color:inherit}
 .top .ttl{font-weight:900;font-size:15px}
 .top .ttl i{font-style:normal;color:var(--blue)}
 .top .site{margin-left:auto;font-size:12px;font-weight:700;color:var(--gray)}
+/* 사업체 스위처 */
+.cosw{position:relative;margin-left:10px;display:none} /* 잠금 해제 전에는 숨김 */
+.cosw>button{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#333d4b;
+  background:#fff;border:1px solid #e5e8eb;border-radius:999px;padding:7px 13px;cursor:pointer}
+.cosw-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:9999;width:240px;background:#fff;
+  border:1px solid #e5e8eb;border-radius:16px;box-shadow:0 12px 32px rgba(16,24,40,.14);padding:6px;text-align:left}
+.cosw-menu .h{font-size:11px;font-weight:800;color:#8b95a1;letter-spacing:.05em;padding:8px 10px 6px}
+.cosw-menu a,.cosw-menu .self{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;
+  font-size:13px;color:#191f28;text-decoration:none}
+.cosw-menu a:hover{background:#f2f4f6}
+.cosw-menu .self{background:#f2f4f6;font-weight:700}
+.cosw-menu .tail{font-size:11px;color:#8b95a1;padding:8px 10px 4px;border-top:1px solid #f2f4f6;margin-top:4px;line-height:1.5}
+.cosw-menu .mark{margin-left:auto;font-size:11px;color:#8b95a1;font-weight:400}
 .nav{display:flex;gap:2px;margin-top:8px;overflow-x:auto}
 .nav button{flex:none;padding:10px 14px;font-size:13.5px;font-weight:800;color:var(--gray);
   border-bottom:2.5px solid transparent}
@@ -131,6 +144,11 @@ textarea{width:100%;border:1.5px solid #D7DCE3;border-radius:11px;padding:12px;f
   <div class="row">
     <span class="ttl">커머랩<i>.</i> 어드민</span>
     <a class="site" href="https://commerlab2.vercel.app" target="_blank">실서비스 보기 ↗</a>
+    <!-- 디깅코퍼레이션 사업체 스위처 — 다른 사업체 어드민으로 새 탭 이동 -->
+    <div class="cosw">
+      <button type="button" id="coswBtn">🏢 사업체</button>
+      <div class="cosw-menu" id="coswMenu" hidden></div>
+    </div>
   </div>
   <div class="nav" id="nav">
     <button class="on" data-v="dash">📊 대시보드</button>
@@ -278,12 +296,37 @@ let tT;function toast(m){const t=document.getElementById('toast');t.textContent=
 function unlock(){
   if(document.getElementById('pw').value===PASS){
     document.getElementById('gate').style.display='none';
+    document.querySelector('.cosw').style.display='block'; // 사업체 스위처는 잠금 해제 후에만
     renderDash(); renderOrders(); loadLink();
   }else toast('비밀번호가 달라요');
 }
 document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('저장 실패 — 브라우저 설정 확인');}}
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+
+/* ── 사업체 스위처 ── 주소가 바뀌면 아래 목록의 url만 고치면 된다 */
+const COSW_SELF='commerlab2';
+const COSW=[
+  {key:'adscout',name:'광고정찰소',emoji:'🛰',url:'https://adscout-bice.vercel.app'},
+  {key:'commerlab2',name:'커머랩',emoji:'📚',url:'https://commerlab2.vercel.app'},
+  {key:'dibs',name:'DIBS',emoji:'🏢',url:'https://dibs-liart.vercel.app'},
+  {key:'jarimood',name:'컨셉부동산',emoji:'🍯',url:'https://conceptbd.vercel.app'},
+  {key:'matjib',name:'맛집검수소',emoji:'🍜',url:'https://matjib-jari3.vercel.app'},
+  {key:'myungrilab',name:'홍서당',emoji:'🧧',url:'https://myungrilab.vercel.app'},
+  {key:'nihon',name:'NIHON',emoji:'🗾',url:'https://nihon-kappa.vercel.app'},
+  {key:'sunghoon',name:'전성훈 프로필',emoji:'👤',url:'https://sunghoon-nine.vercel.app'},
+];
+(function(){
+  const btn=document.getElementById('coswBtn'), menu=document.getElementById('coswMenu');
+  menu.innerHTML='<div class="h">디깅코퍼레이션 사업체</div>'
+    + COSW.map(c=>c.key===COSW_SELF
+        ? `<div class="self"><span>${c.emoji}</span><span>${c.name}</span><span class="mark">여기</span></div>`
+        : `<a href="${c.url}" target="_blank" rel="noopener noreferrer"><span>${c.emoji}</span><span>${c.name}</span><span class="mark">↗</span></a>`).join('')
+    + '<div class="tail">새 탭으로 열립니다.<br>사업체마다 로그인은 따로입니다.</div>';
+  btn.addEventListener('click',e=>{ e.stopPropagation(); menu.hidden=!menu.hidden; });
+  document.addEventListener('click',e=>{ if(!menu.hidden && !menu.contains(e.target)) menu.hidden=true; });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') menu.hidden=true; });
+})();
 
 /* ── 화면 전환 ── */
 document.getElementById('nav').addEventListener('click',e=>{
